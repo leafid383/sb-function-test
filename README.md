@@ -75,35 +75,36 @@ Next.js + TypeScript + Storybook + shadcn/ui環境で、Storybookのplay functio
 - Tailwind CSSのスタイルが適用されている
 - デフォルトのサンプルストーリーが表示される
 
-### フェーズ2: コンポーネントとplay function
+### フェーズ2: コンポーネントとplay function ✅
 
 #### 4. shadcn/uiベースのコンポーネント作成
-- [ ] Buttonコンポーネント
-  - 各種variant (default, destructive, outline, ghost)
-  - サイズバリエーション
-- [ ] Formコンポーネント
-  - Input, Label
-  - バリデーション
-  - エラー表示
-- [ ] Cardコンポーネント
-  - ヘッダー、コンテンツ、フッター
-- [ ] Dialogコンポーネント
-  - モーダル開閉
-  - フォーム統合
+- [x] Buttonコンポーネント
+  - [x] 各種variant (default, destructive, outline, secondary, ghost, link)
+  - [x] サイズバリエーション (sm, default, lg, icon)
+- [x] Formコンポーネント
+  - [x] Input, Label
+  - [x] バリデーション
+  - [x] 複数の入力パターン
+- [x] Cardコンポーネント
+  - [x] ヘッダー、コンテンツ、フッター
+  - [x] 様々なユースケース（プロダクト、プロフィール、フォーム等）
+- [x] Dialogコンポーネント
+  - [x] モーダル開閉
+  - [x] フォーム統合
 
 #### 5. Play functionの実装
-- [ ] @storybook/test のセットアップ
-- [ ] ユーザーインタラクションのシミュレーション
-  - ボタンクリック
-  - フォーム入力
-  - モーダル開閉
-- [ ] アサーションテスト
-  - DOM状態の検証
-  - イベントハンドラーの動作確認
-- [ ] 複数のシナリオ
-  - 成功パターン
-  - 失敗パターン
-  - エッジケース
+- [x] @storybook/test のセットアップ
+- [x] ユーザーインタラクションのシミュレーション
+  - [x] ボタンクリック
+  - [x] フォーム入力
+  - [x] モーダル開閉
+- [x] アサーションテスト
+  - [x] DOM状態の検証
+  - [x] イベントハンドラーの動作確認
+- [x] 複数のシナリオ
+  - [x] 成功パターン
+  - [x] 無効化（disabled）パターン
+  - [x] フォームバリデーション
 
 **📺 Storybookで確認できること：**
 - 全てのshadcn/uiコンポーネント（Button, Input, Label, Card, Dialog）のストーリー
@@ -196,6 +197,59 @@ Next.js + TypeScript + Storybook + shadcn/ui環境で、Storybookのplay functio
 - clsx + tailwind-merge
 
 **コミット：** `512dc53`
+
+### 2025-11-03: フェーズ2完了 ✅
+
+**実装内容：**
+- 全shadcn/uiコンポーネントのStorybookストーリー作成
+  - **Button** (button.stories.tsx)
+    - 6種類のvariant（default, destructive, outline, secondary, ghost, link）
+    - 4種類のサイズ（sm, default, lg, icon）
+    - 全バリエーションを表示するAllVariantsストーリー
+  - **Input & Label** (input.stories.tsx)
+    - 基本入力フィールド
+    - メール、パスワードフィールド
+    - 複数フィールドのフォーム
+  - **Card** (card.stories.tsx)
+    - 基本カード構造
+    - プロダクトカード、ユーザープロフィールカード
+    - フォームカード
+    - 複数カードのグリッドレイアウト
+  - **Dialog** (dialog.stories.tsx)
+    - 基本モーダル
+    - フォーム統合モーダル
+    - 制御されたダイアログ（Controlled Dialog）
+    - 確認ダイアログ（Confirmation Dialog）
+
+- Play function実装（合計20以上のインタラクションテスト）
+  - **Buttonテスト**
+    - クリックテスト、無効化テスト
+    - onClickハンドラーテスト
+    - 全ボタンの表示確認
+  - **Input/Formテスト**
+    - テキスト入力のシミュレーション
+    - クリア動作のテスト
+    - メールバリデーション
+    - 複数フィールドへの同時入力
+    - フォーカステスト
+  - **Cardテスト**
+    - コンテンツ表示確認
+    - ボタン存在確認
+    - 複数カードの表示確認
+  - **Dialogテスト**
+    - モーダルの開閉テスト
+    - フォーム入力テスト（モーダル内）
+    - 制御されたダイアログのステート管理テスト
+    - 確認ダイアログのインタラクション
+
+**主な使用ライブラリ：**
+- @storybook/test（expect, userEvent, within, waitFor）
+- @storybook/addon-interactions
+
+**テストカバレッジ：**
+- 成功パターン: ✅
+- エラー/無効化パターン: ✅
+- 複雑なインタラクション（モーダル開閉、フォーム入力）: ✅
 
 ## 📚 参考リンク
 
