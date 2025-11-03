@@ -15,6 +15,34 @@ Next.js + TypeScript + Storybook + shadcn/ui環境で、Storybookのplay functio
 - **Storybook MCP** (Model Context Protocol)
 - **Chromatic** (ビジュアルリグレッションテスト)
 
+## 🎬 Storybookで体験できること
+
+このプロジェクトを完成させると、Storybookで以下のことが体験・確認できます：
+
+### 📦 コンポーネントカタログ
+- shadcn/uiベースの高品質なUIコンポーネント
+- 各コンポーネントの全てのvariant（デフォルト、破壊的、アウトライン等）
+- サイズバリエーション（sm, md, lg）
+- ライト/ダークモード対応
+
+### 🎮 インタラクティブテスト（Play Function）
+- ボタンクリックの自動テスト
+- フォーム入力のシミュレーション
+- ダイアログ（モーダル）の開閉テスト
+- 成功/失敗/エッジケースの網羅的なテストシナリオ
+- Interactionsパネルでステップバイステップの動作確認
+
+### 🤖 AI連携（Storybook MCP）
+- Claude Codeからコンポーネント情報への直接アクセス
+- props、variants、使用例の自動取得
+- AIによるコンポーネントドキュメント生成
+
+### 👁️ ビジュアルテスト（Chromatic）
+- ビジュアルリグレッションテスト
+- UI変更の差分可視化
+- PRでの自動ビジュアルレビュー
+- コンポーネント変更履歴の追跡
+
 ## 🎯 実装プラン
 
 ### フェーズ1: 基本セットアップ ✅
@@ -41,6 +69,11 @@ Next.js + TypeScript + Storybook + shadcn/ui環境で、Storybookのplay functio
 - [x] Tailwind CSSとの統合
 - [x] TypeScript対応
 - [x] @storybook/test と @storybook/addon-interactions 追加
+
+**📺 Storybookで確認できること：**
+- Storybookサーバーが正常に起動する（`npm run storybook`）
+- Tailwind CSSのスタイルが適用されている
+- デフォルトのサンプルストーリーが表示される
 
 ### フェーズ2: コンポーネントとplay function
 
@@ -72,6 +105,17 @@ Next.js + TypeScript + Storybook + shadcn/ui環境で、Storybookのplay functio
   - 失敗パターン
   - エッジケース
 
+**📺 Storybookで確認できること：**
+- 全てのshadcn/uiコンポーネント（Button, Input, Label, Card, Dialog）のストーリー
+- 各コンポーネントの全てのvariantとサイズ
+- インタラクティブなControls（プロパティの変更）
+- Play functionによる自動インタラクションテスト
+  - ボタンクリック時の動作
+  - フォーム入力のシミュレーション
+  - ダイアログの開閉
+- Interactionsパネルでステップバイステップのテスト実行
+- テストの成功/失敗状態
+
 ### フェーズ3: Storybook MCPの設定
 
 #### 6. Storybook MCP（Model Context Protocol）のセットアップ
@@ -79,6 +123,11 @@ Next.js + TypeScript + Storybook + shadcn/ui環境で、Storybookのplay functio
 - [ ] Storybook MCPサーバーの設定
 - [ ] 統合テスト
 - [ ] ドキュメント化
+
+**📺 Storybookで確認できること：**
+- MCP経由でStorybookのストーリー情報にアクセス可能
+- AI（Claude）がStorybookのコンポーネント情報を取得できる
+- コンポーネントのpropsやvariantの自動ドキュメント化
 
 ### フェーズ4: Chromatic統合
 
@@ -90,6 +139,14 @@ Next.js + TypeScript + Storybook + shadcn/ui環境で、Storybookのplay functio
 - [ ] CI/CD統合（GitHub Actions）
   - PR時の自動テスト
   - ビジュアルレビューワークフロー
+
+**📺 Storybookで確認できること：**
+- ChromaticのPublish Storybook機能で公開されたURL
+- ビジュアルリグレッションテストの結果（変更差分の可視化）
+- インタラクションテストの実行結果
+- PR内でのビジュアルレビュー
+- 各コミットでのビジュアル変更履歴
+- ベースラインとの比較スナップショット
 
 ### 追加機能
 
