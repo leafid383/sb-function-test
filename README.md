@@ -131,24 +131,26 @@ Next.js + TypeScript + Storybook + shadcn/ui環境で、Storybookのplay functio
 - コンポーネントのpropsやvariantの自動ドキュメント化
 - Claude Desktop/Claude CodeからStorybookコンポーネントを直接操作可能
 
-### フェーズ4: Chromatic統合
+### フェーズ4: Chromatic統合 ✅
 
 #### 7. Chromaticのセットアップ
-- [ ] Chromaticアカウント連携
-- [ ] プロジェクト設定
-- [ ] ビジュアルリグレッションテスト
-- [ ] インタラクションテストの実行
-- [ ] CI/CD統合（GitHub Actions）
-  - PR時の自動テスト
-  - ビジュアルレビューワークフロー
+- [x] Chromaticアカウント連携手順の文書化
+- [x] プロジェクト設定ガイド
+- [x] ビジュアルリグレッションテスト設定
+- [x] インタラクションテストの有効化
+- [x] CI/CD統合（GitHub Actions）
+  - [x] PR時の自動テスト
+  - [x] ビジュアルレビューワークフロー
+  - [x] 自動コメント機能
 
 **📺 Storybookで確認できること：**
 - ChromaticのPublish Storybook機能で公開されたURL
 - ビジュアルリグレッションテストの結果（変更差分の可視化）
-- インタラクションテストの実行結果
+- インタラクションテスト（play function）の実行結果
 - PR内でのビジュアルレビュー
 - 各コミットでのビジュアル変更履歴
 - ベースラインとの比較スナップショット
+- GitHub ActionsでのCI統合
 
 ### 追加機能
 
@@ -219,6 +221,50 @@ Storybook MCPを設定すると、Claude（AI）がStorybookのコンポーネ�
    - "Cardコンポーネントにはどんなストーリーがある？"
 
 詳細な設定方法やトラブルシューティングは [.mcp/README.md](.mcp/README.md) を参照してください。
+
+### Chromatic設定（ビジュアルテスト・公開）
+
+Chromaticを設定すると、ビジュアルリグレッションテストとStorybookの自動公開が可能になります。
+
+#### 前提条件
+- GitHubリポジトリが必要
+- Chromaticアカウント（無料プランあり）
+
+#### 設定手順
+
+1. **Chromaticアカウントを作成**
+   - [chromatic.com](https://www.chromatic.com/)にアクセス
+   - GitHubアカウントでサインアップ
+   - 「Add project」をクリックしてリポジトリを選択
+   - プロジェクトトークンをコピー
+
+2. **GitHub Secretsにトークンを設定**
+   - GitHubリポジトリの「Settings」→「Secrets and variables」→「Actions」
+   - 「New repository secret」をクリック
+   - **Name:** `CHROMATIC_PROJECT_TOKEN`
+   - **Secret:** コピーしたプロジェクトトークン
+
+3. **初回プッシュでベースライン作成**
+   ```bash
+   git push
+   ```
+   GitHub Actionsが自動実行され、Chromaticにアップロードされます。
+
+4. **Chromaticダッシュボードで確認**
+   - ビルド状況の確認
+   - ビジュアル変更の検出
+   - インタラクションテストの結果
+
+**ローカルでの実行（オプション）:**
+```bash
+# .env.localファイルを作成
+echo "CHROMATIC_PROJECT_TOKEN=your_token" > .env.local
+
+# Chromaticを実行
+npm run chromatic
+```
+
+詳細な設定方法やベストプラクティスは [.chromatic/README.md](.chromatic/README.md) を参照してください。
 
 ## 📖 実装ログ
 
@@ -354,6 +400,73 @@ Claude: [MCPツール使用] 現在以下のコンポーネントがあります
 - UI/Card
 - UI/Dialog
 ```
+
+**コミット：** `6769c4d`
+
+### 2025-11-03: フェーズ4完了 ✅
+
+**実装内容：**
+- Chromatic統合の完全セットアップ
+  - **GitHub Actions ワークフロー**
+    - `.github/workflows/chromatic.yml` - CI/CD自動化
+    - プッシュごとの自動実行
+    - フルgit履歴の取得（fetch-depth: 0）
+    - インタラクションテストの有効化
+    - mainブランチの自動承認設定
+
+  - **NPMスクリプト**
+    - `npm run chromatic` - ローカル実行用コマンド追加
+
+  - **設定ファイル**
+    - `.gitignore` - Storybook/Chromaticの出力ファイルを除外
+      - `storybook-static`
+      - `build-storybook.log`
+      - `screenshots`
+
+  - **詳細ドキュメント**
+    - `.chromatic/README.md` - 包括的なガイド
+      - セットアップ手順（アカウント作成からCI設定まで）
+      - PRワークフロー
+      - Chromaticダッシュボードの使い方
+      - 高度な設定オプション
+      - トラブルシューティング
+      - ベストプラクティス
+      - コスト管理のヒント
+
+- **主な機能：**
+  - ビジュアルリグレッションテスト（UIの視覚的変更を自動検出）
+  - インタラクションテスト（play functionの自動実行）
+  - Storybook自動公開（Chromatic上でホスティング）
+  - PRでの視覚的レビュー
+  - GitHub Actionsとの完全統合
+
+- **GitHub Actions設定：**
+  - Node.js 20
+  - npm ciで依存関係を高速インストール
+  - chromaui/action@latestでChromaticを実行
+  - プロジェクトトークンはGitHub Secretsで管理
+
+- **ドキュメント更新：**
+  - メインREADMEにChromaticセットアップ手順を追加
+  - ローカル実行方法の記載
+  - GitHub Secrets設定ガイド
+
+**使用方法：**
+
+1. **Chromaticアカウント作成**
+   - chromatic.comでサインアップ
+   - プロジェクトトークンを取得
+
+2. **GitHub Secretsに設定**
+   - `CHROMATIC_PROJECT_TOKEN`を追加
+
+3. **自動実行**
+   - プッシュするだけで自動的にテスト実行
+   - PRにChromaticの結果がコメントされる
+
+**料金プラン：**
+- 無料: 月5,000スナップショット
+- スナップショット削減のヒント有り
 
 ## 📚 参考リンク
 

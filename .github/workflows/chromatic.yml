@@ -1,0 +1,36 @@
+# Chromatic - Visual Testing & Review
+# https://www.chromatic.com/docs/github-actions
+
+name: "Chromatic"
+
+on: push
+
+jobs:
+  chromatic:
+    name: Run Chromatic
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Required for Chromatic to track changes over time
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Chromatic
+        uses: chromaui/action@latest
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          # Automatically comment on PRs with build results
+          autoAcceptChanges: "main"
+          # Catch errors from build-storybook
+          exitZeroOnChanges: true
+          # Run interaction tests
+          interactionTestsEnabled: true
