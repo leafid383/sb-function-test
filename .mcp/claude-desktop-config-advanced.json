@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "storybook": {
+      "command": "npx",
+      "args": ["storybook-mcp-server"],
+      "env": {
+        "STORYBOOK_URL": "http://localhost:6006",
+        "OUTPUT_DIR": "./screenshots",
+        "LOG_LEVEL": "info"
+      }
+    }
+  }
+}

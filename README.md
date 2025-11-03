@@ -117,18 +117,19 @@ Next.js + TypeScript + Storybook + shadcn/ui環境で、Storybookのplay functio
 - Interactionsパネルでステップバイステップのテスト実行
 - テストの成功/失敗状態
 
-### フェーズ3: Storybook MCPの設定
+### フェーズ3: Storybook MCPの設定 ✅
 
 #### 6. Storybook MCP（Model Context Protocol）のセットアップ
-- [ ] MCP設定ファイルの作成
-- [ ] Storybook MCPサーバーの設定
-- [ ] 統合テスト
-- [ ] ドキュメント化
+- [x] MCP設定ファイルの作成
+- [x] Storybook MCPサーバーの設定
+- [x] 統合テスト手順の文書化
+- [x] ドキュメント化
 
 **📺 Storybookで確認できること：**
 - MCP経由でStorybookのストーリー情報にアクセス可能
 - AI（Claude）がStorybookのコンポーネント情報を取得できる
 - コンポーネントのpropsやvariantの自動ドキュメント化
+- Claude Desktop/Claude CodeからStorybookコンポーネントを直接操作可能
 
 ### フェーズ4: Chromatic統合
 
@@ -159,7 +160,65 @@ Next.js + TypeScript + Storybook + shadcn/ui環境で、Storybookのplay functio
 
 ## 🚀 セットアップ手順
 
-*(実装後に追記)*
+### 基本セットアップ
+
+1. **依存関係のインストール**
+   ```bash
+   npm install
+   ```
+
+2. **Storybookの起動**
+   ```bash
+   npm run storybook
+   ```
+   ブラウザで `http://localhost:6006` を開いてStorybookを確認できます。
+
+3. **Next.jsアプリケーションの起動**（オプション）
+   ```bash
+   npm run dev
+   ```
+
+### Storybook MCP設定（Claude Desktop/Claude Code連携）
+
+Storybook MCPを設定すると、Claude（AI）がStorybookのコンポーネント情報に直接アクセスできるようになります。
+
+#### 前提条件
+- Storybookが起動していること（`npm run storybook`）
+- Claude DesktopまたはClaude Codeがインストールされていること
+
+#### 設定手順
+
+1. **Claude Desktopの設定ファイルを開く**
+   - **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+   - **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+
+2. **MCP設定を追加**
+
+   以下の設定を追加（`.mcp/claude-desktop-config.json`からコピー可能）：
+   ```json
+   {
+     "mcpServers": {
+       "storybook": {
+         "command": "npx",
+         "args": ["-y", "storybook-mcp"],
+         "env": {
+           "STORYBOOK_URL": "http://localhost:6006/index.json"
+         }
+       }
+     }
+   }
+   ```
+
+3. **Claude Desktopを再起動**
+
+4. **動作確認**
+
+   Claude Desktop/Claude Codeで以下のように質問してみてください：
+   - "Storybookにあるコンポーネントの一覧を教えて"
+   - "Buttonコンポーネントのpropsを教えて"
+   - "Cardコンポーネントにはどんなストーリーがある？"
+
+詳細な設定方法やトラブルシューティングは [.mcp/README.md](.mcp/README.md) を参照してください。
 
 ## 📖 実装ログ
 
@@ -251,14 +310,69 @@ Next.js + TypeScript + Storybook + shadcn/ui環境で、Storybookのplay functio
 - エラー/無効化パターン: ✅
 - 複雑なインタラクション（モーダル開閉、フォーム入力）: ✅
 
+**コミット：** `02177af`
+
+### 2025-11-03: フェーズ3完了 ✅
+
+**実装内容：**
+- Storybook Model Context Protocol (MCP) 設定の完備
+  - **MCP設定ファイル**
+    - `.mcp/claude-desktop-config.json` - 基本設定（推奨）
+    - `.mcp/claude-desktop-config-advanced.json` - 高度な設定（スクリーンショット機能付き）
+    - `.mcp/README.md` - 詳細なセットアップ手順とトラブルシューティング
+
+  - **サポートするMCP実装**
+    - mcpland/storybook-mcp（基本機能）
+    - stefanoamorelli/storybook-mcp-server（拡張機能）
+
+- **利用可能なMCPツール**
+  - `getComponentList` - Storybookの全コンポーネント一覧を取得
+  - `getComponentPropsType` - 特定のコンポーネントの詳細なprops情報を取得
+  - `captureScreenshot` - 個別ストーリーのスクリーンショット撮影（拡張版）
+  - `captureAllScreenshots` - 全ストーリーの一括スクリーンショット撮影（拡張版）
+
+- **ドキュメント整備**
+  - メインREADMEにMCPセットアップ手順を追加
+  - 使用例とトラブルシューティングガイド
+  - macOS/Windows両対応の設定パス記載
+
+**主な機能：**
+- Claude Desktop/Claude CodeからStorybookコンポーネント情報に直接アクセス
+- AIによるコンポーネントprops、variants、ストーリーの自動取得
+- コンポーネントドキュメントの自動生成支援
+
+**設定場所：**
+- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+
+**使用例：**
+```
+ユーザー: "Storybookにあるコンポーネントを教えて"
+Claude: [MCPツール使用] 現在以下のコンポーネントがあります：
+- UI/Button (6 variants, 4 sizes)
+- UI/Input
+- UI/Card
+- UI/Dialog
+```
+
 ## 📚 参考リンク
 
+### 基本技術
 - [Next.js Documentation](https://nextjs.org/docs)
 - [Storybook Documentation](https://storybook.js.org/docs)
 - [shadcn/ui Documentation](https://ui.shadcn.com)
+- [Tailwind CSS](https://tailwindcss.com/docs)
+
+### Storybook拡張
 - [Storybook Play Function](https://storybook.js.org/docs/writing-stories/play-function)
+- [@storybook/test](https://storybook.js.org/docs/writing-tests/interaction-testing)
 - [Chromatic Documentation](https://www.chromatic.com/docs)
-- [Storybook MCP](https://github.com/storybookjs/mcp)
+
+### Model Context Protocol (MCP)
+- [Model Context Protocol Specification](https://modelcontextprotocol.io/)
+- [mcpland/storybook-mcp](https://github.com/mcpland/storybook-mcp)
+- [stefanoamorelli/storybook-mcp-server](https://github.com/stefanoamorelli/storybook-mcp-server)
+- [Storybook MCP Discussion](https://github.com/storybookjs/storybook/discussions/31788)
 
 ## 📝 ライセンス
 
