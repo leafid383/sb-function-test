@@ -6,40 +6,41 @@ Next.js + TypeScript + Storybook + shadcn/ui環境で、Storybookのplay functio
 
 このプロジェクトでは以下の技術スタックを使用します：
 
-- **Next.js 14+** (App Router)
-- **TypeScript**
-- **Storybook 8** (最新版)
+- **Next.js 15** (App Router)
+- **TypeScript 5**
+- **Storybook 8.6** (play function対応)
 - **shadcn/ui** (デザインフレームワーク)
-- **Tailwind CSS**
+- **Tailwind CSS v4**
 - **Storybook Play Function** (インタラクションテスト)
 - **Storybook MCP** (Model Context Protocol)
 - **Chromatic** (ビジュアルリグレッションテスト)
 
 ## 🎯 実装プラン
 
-### フェーズ1: 基本セットアップ
+### フェーズ1: 基本セットアップ ✅
 
 #### 1. Next.js + TypeScript プロジェクトの初期化
 - [x] リポジトリ作成
-- [ ] Next.js 14+ with App Router
-- [ ] TypeScript設定
-- [ ] 基本的なディレクトリ構造
+- [x] Next.js 15 with App Router
+- [x] TypeScript設定
+- [x] 基本的なディレクトリ構造
 
 #### 2. Tailwind CSS + shadcn/ui のセットアップ
-- [ ] Tailwind CSS設定
-- [ ] shadcn/ui初期化
-- [ ] 必要なコンポーネントのインストール
-  - Button
-  - Form (Input, Label)
-  - Card
-  - Dialog
-- [ ] テーマ設定（light/dark mode対応）
+- [x] Tailwind CSS v4設定
+- [x] shadcn/ui初期化（components.json、utils.ts）
+- [x] 必要なコンポーネントのインストール
+  - [x] Button
+  - [x] Form (Input, Label)
+  - [x] Card
+  - [x] Dialog
+- [x] テーマ設定（light/dark mode対応）
 
 #### 3. Storybook 8のインストールと設定
-- [ ] Storybook 8.x インストール
-- [ ] Next.js用のアドオン設定
-- [ ] Tailwind CSSとの統合
-- [ ] TypeScript対応
+- [x] Storybook 8.6 インストール
+- [x] Next.js用のアドオン設定
+- [x] Tailwind CSSとの統合
+- [x] TypeScript対応
+- [x] @storybook/test と @storybook/addon-interactions 追加
 
 ### フェーズ2: コンポーネントとplay function
 
@@ -101,6 +102,43 @@ Next.js + TypeScript + Storybook + shadcn/ui環境で、Storybookのplay functio
 ## 🚀 セットアップ手順
 
 *(実装後に追記)*
+
+## 📖 実装ログ
+
+### 2025-11-03: フェーズ1完了 ✅
+
+**セットアップ内容：**
+- Next.js 15プロジェクトをTypeScript + App Routerで初期化
+- Tailwind CSS v4をセットアップ（@tailwindcss/postcss使用）
+- shadcn/uiを手動セットアップ
+  - `components.json`設定ファイル作成
+  - `src/lib/utils.ts`にcn関数実装
+  - `src/app/globals.css`にCSS変数とテーマ設定追加
+- shadcn/uiコンポーネント実装
+  - Button（variant: default, destructive, outline, secondary, ghost, link）
+  - Label（Radix UI使用）
+  - Input
+  - Card（Header, Title, Description, Content, Footer付き）
+  - Dialog（Radix UI使用、モーダル機能）
+- Storybook 8.6をインストール
+  - @storybook/nextjs設定
+  - @storybook/addon-essentials
+  - @storybook/addon-interactions（play function用）
+  - @storybook/test（テストユーティリティ）
+  - @chromatic-com/storybook（Chromatic連携用）
+  - Tailwind CSSをStorybookに統合（preview.tsでglobals.cssをインポート）
+
+**依存関係：**
+- Next.js 15.0.3
+- React 19.2.0
+- TypeScript 5
+- Tailwind CSS 4
+- Storybook 8.6.14
+- Radix UI（Dialog, Label, Slot）
+- class-variance-authority
+- clsx + tailwind-merge
+
+**コミット：** `512dc53`
 
 ## 📚 参考リンク
 
