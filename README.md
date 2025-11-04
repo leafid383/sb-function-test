@@ -155,9 +155,9 @@ Next.js + TypeScript + Storybook + shadcn/ui環境で、Storybookのplay functio
 ### 追加機能
 
 #### 8. ドキュメント整備
-- [ ] README更新（セットアップ手順、使用方法）
+- [x] README更新（セットアップ手順、使用方法）
 - [ ] 各コンポーネントのMDXドキュメント
-- [ ] play functionの使用例
+- [x] **[Play Functionの使用例とガイド](docs/play-function-guide.md)** ✅
 - [ ] ベストプラクティスガイド
 
 ## 🚀 セットアップ手順
@@ -469,6 +469,11 @@ Claude: [MCPツール使用] 現在以下のコンポーネントがあります
 - スナップショット削減のヒント有り
 
 ## 📚 参考リンク
+
+### プロジェクトドキュメント
+- **[Play Function 使用ガイド](docs/play-function-guide.md)** - インタラクションテストの書き方
+- [MCP設定ガイド](.mcp/README.md) - AI連携の設定方法
+- [Chromatic設定ガイド](.chromatic/README.md) - ビジュアルテストの設定
 
 ### 基本技術
 - [Next.js Documentation](https://nextjs.org/docs)
